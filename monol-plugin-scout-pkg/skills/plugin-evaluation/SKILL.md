@@ -1,10 +1,10 @@
 ---
-name: plugin-evaluation
-description: |
-  플러그인 평가 방법론. 플러그인 점수 계산, 보안 검토, 호환성 분석 시 사용합니다.
-
-  Use when: "플러그인 평가", "플러그인 점수", "플러그인 보안 검토", "compare plugins",
-  "evaluate plugin", "check plugin safety", "plugin compatibility"
+skill: plugin-evaluation
+description: 플러그인 평가 방법론. 플러그인 점수 계산, 보안 검토, 호환성 분석 시 사용합니다.
+proactive: false
+triggers:
+  - plugin_install
+  - plugin_compare
 ---
 
 # Plugin Evaluation Skill

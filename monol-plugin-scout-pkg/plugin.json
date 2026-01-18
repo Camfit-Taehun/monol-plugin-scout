@@ -1,6 +1,6 @@
 {
   "name": "monol-plugin-scout",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Claude Code 플러그인 마켓플레이스 모니터링 및 추천 에이전트",
   "author": "monol",
   "commands": "commands/",
