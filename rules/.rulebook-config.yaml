@@ -1,0 +1,14 @@
+# Rulebook Configuration
+metadata:
+  version: "1.0.0"
+  scope: package
+
+hierarchy:
+  enabled: true
+  mergeStrategy: override
+  conflictResolution: local-wins
+
+# 글로벌 규칙 상속
+inheritance:
+  - path: ~/.config/monol/rules
+    priority: 1
