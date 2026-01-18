@@ -1,12 +1,20 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "monol-plugin-scout",
   "description": "Claude Code 플러그인 마켓플레이스 모니터링 및 추천",
+  "owner": {
+    "name": "Kent",
+    "email": "thkim@nextedition.co.kr"
+  },
   "plugins": [
     {
       "name": "monol-plugin-scout",
-      "version": "2.0.0",
       "description": "플러그인 마켓플레이스 스캔, 평가, 추천 에이전트",
-      "path": "monol-plugin-scout"
+      "author": {
+        "name": "Kent"
+      },
+      "source": "./monol-plugin-scout-pkg",
+      "category": "productivity"
     }
   ]
 }
