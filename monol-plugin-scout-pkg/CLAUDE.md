@@ -1,6 +1,32 @@
-# Plugin Scout v2.0
+# Plugin Scout v2.1
 
 Claude Code 플러그인 마켓플레이스 모니터링 및 추천 에이전트
+
+## v2.1 새 기능
+
+### 무음 모드 (`/scout quiet`)
+추천 알림을 완전히 비활성화합니다.
+```bash
+/scout quiet on     # 무음 모드 활성화
+/scout quiet off    # 무음 모드 비활성화
+/scout quiet        # 현재 상태 확인
+```
+
+### 추천 빈도 조절 (`/scout frequency`)
+세션당/일일 추천 횟수를 제한합니다.
+```bash
+/scout frequency session 2   # 세션당 최대 2회
+/scout frequency daily 5     # 하루 최대 5회
+/scout frequency cooldown 60 # 추천 간격 60분
+```
+
+### 스마트 타이밍 (`/scout timing`)
+특정 이벤트 후에만 추천하도록 설정합니다.
+```bash
+/scout timing after-commit on  # 커밋 후에만 추천
+/scout timing after-pr on      # PR 후에만 추천
+/scout timing always           # 항상 추천 (기본값)
+```
 
 ## 설치 (Claude Code 플러그인)
 
@@ -36,6 +62,9 @@ git clone https://github.com/your/monol-plugin-scout.git ~/monol-plugin-scout
 | 커맨드 | 한글 키워드 | 설명 |
 |--------|-------------|------|
 | `/scout` | 스카우트, 플러그인추천 | 플러그인 추천 |
+| `/scout quiet` | 무음, 조용히 | 무음 모드 설정 (v2.1) |
+| `/scout frequency` | 빈도, 횟수 | 추천 빈도 설정 (v2.1) |
+| `/scout timing` | 타이밍, 추천시점 | 스마트 타이밍 (v2.1) |
 | `/compare` | 비교, 플러그인비교 | 플러그인 비교 |
 | `/cleanup` | 정리, 플러그인정리 | 미사용 정리 |
 | `/explore` | 탐색, 마켓플레이스 | 카테고리 탐색 |
@@ -112,6 +141,9 @@ cleanup:
     ├── CLAUDE.md                 # 이 파일
     ├── commands/
     │   ├── scout.md              # /scout 메인 커맨드
+    │   ├── quiet.md              # /scout quiet (v2.1)
+    │   ├── frequency.md          # /scout frequency (v2.1)
+    │   ├── timing.md             # /scout timing (v2.1)
     │   ├── compare.md            # /scout compare
     │   ├── cleanup.md            # /scout cleanup
     │   ├── explore.md            # /scout explore
@@ -119,6 +151,8 @@ cleanup:
     │   └── fork.md               # /scout fork
     ├── skills/
     │   └── plugin-evaluation.md  # 평가 방법론
+    ├── lib/
+    │   └── recommendation-controller.sh  # 추천 제어 (v2.1)
     ├── combos/                   # 워크플로우 조합
     ├── overrides/                # 플러그인 오버라이드
     └── data/

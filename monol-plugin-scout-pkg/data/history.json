@@ -61,7 +61,8 @@
     "maxRecommendationsPerSession": 2,
     "maxRecommendationsPerDay": 5,
     "smartTiming": {
-      "onlyAfterCommit": false
+      "onlyAfterCommit": false,
+      "onlyAfterPR": false
     }
   },
   "rejectionPatterns": {
