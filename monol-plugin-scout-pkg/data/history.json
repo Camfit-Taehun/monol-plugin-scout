@@ -63,7 +63,13 @@
     "smartTiming": {
       "onlyAfterCommit": false,
       "onlyAfterPR": false
-    }
+    },
+    "trustedAutoInstall": false
+  },
+  "trustedInstallLog": [],
+  "skills": {
+    "installed": [],
+    "declined": []
   },
   "rejectionPatterns": {
     "byCategory": {

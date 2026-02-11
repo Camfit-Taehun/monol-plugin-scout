@@ -30,4 +30,14 @@ if [ -f "$PLUGIN_ROOT/lib/team-manager.sh" ]; then
   bash "$PLUGIN_ROOT/lib/team-manager.sh" register "$CURRENT_USER" >/dev/null 2>&1
 fi
 
+# Trusted auto-install (silent, background)
+if [ -f "$PLUGIN_ROOT/lib/trusted-installer.sh" ]; then
+  bash "$PLUGIN_ROOT/lib/trusted-installer.sh" run >/dev/null 2>&1 &
+fi
+
+# Skill scout auto-install (silent, background)
+if [ -f "$PLUGIN_ROOT/lib/skill-scout.sh" ]; then
+  bash "$PLUGIN_ROOT/lib/skill-scout.sh" auto >/dev/null 2>&1 &
+fi
+
 # 조용히 시작 (출력 없음)

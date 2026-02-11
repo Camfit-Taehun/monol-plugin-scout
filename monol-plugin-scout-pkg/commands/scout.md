@@ -19,11 +19,14 @@ allowed-tools: [Read, Glob, Grep, Bash, WebFetch, AskUserQuestion]
 ## 서브커맨드
 
 ```
-/scout compare <a> <b>    # 플러그인 비교 → compare.md 참조
-/scout cleanup            # 미사용 플러그인 정리 → cleanup.md 참조
-/scout explore [category] # 마켓플레이스 탐색 → explore.md 참조
-/scout audit              # 보안/업데이트 점검 → audit.md 참조
-/scout fork <src> <name>  # 플러그인 포크 → fork.md 참조
+/scout compare <a> <b>           # 플러그인 비교 → compare.md 참조
+/scout cleanup                   # 미사용 플러그인 정리 → cleanup.md 참조
+/scout explore [category]        # 마켓플레이스 탐색 → explore.md 참조
+/scout audit                     # 보안/업데이트 점검 → audit.md 참조
+/scout fork <src> <name>         # 플러그인 포크 → fork.md 참조
+/scout trusted-install [on|off|status|check|run]  # 신뢰된 자동 설치 → trusted-install.md 참조
+/scout trust [@author|remove|list|export]         # 신뢰 작성자 관리 → trust.md 참조
+/scout skills [search|recommend|install|list|combos] # skills.sh 스킬 탐색 → skills.md 참조
 ```
 
 ## 인자: $ARGUMENTS

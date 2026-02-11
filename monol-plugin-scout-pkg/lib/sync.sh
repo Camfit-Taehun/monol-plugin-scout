@@ -166,6 +166,44 @@ EOF
   send_event "audit_run" "$event_data"
 }
 
+# 신뢰된 자동 설치 이벤트
+sync_trusted_install() {
+  local installed_count="$1"
+  local skipped_count="$2"
+  local new_releases="$3"
+
+  load_sync_config
+
+  local event_data=$(cat <<EOF
+{
+  "installedCount": ${installed_count:-0},
+  "skippedCount": ${skipped_count:-0},
+  "newReleases": ${new_releases:-0}
+}
+EOF
+)
+
+  send_event "trusted_install" "$event_data"
+}
+
+# 스킬 설치 이벤트
+sync_skill_installed() {
+  local skill_id="$1"
+  local source="$2"
+
+  load_sync_config
+
+  local event_data=$(cat <<EOF
+{
+  "skillId": "$skill_id",
+  "source": "$source"
+}
+EOF
+)
+
+  send_event "skill_installed" "$event_data"
+}
+
 # 정리 실행 이벤트
 sync_cleanup_run() {
   local removed_count="$1"

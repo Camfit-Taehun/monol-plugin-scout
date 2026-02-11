@@ -102,3 +102,32 @@ sync_team: ""
 
 # 요청 타임아웃 (초)
 sync_timeout: 5
+
+# ============================================================================
+# 신뢰된 자동 설치 (Trusted Auto-Install)
+# ============================================================================
+auto_install:
+  enabled: false                # /scout trusted-install on 으로 opt-in
+  trusted_authors: ["Anthropic"]
+  marketplace: "claude-plugins-official"
+  lsp_language_filter: true     # LSP는 프로젝트 언어 매칭 필요
+  scope: "user"
+  # 오프라인 폴백
+  cache_catalog: true           # marketplace 카탈로그 로컬 캐시
+  cache_ttl: 86400              # 24시간
+  # 신규 출시 감지
+  detect_new_releases: true     # 이전 vs 현재 비교
+  # 충돌 감지
+  check_conflicts: true         # 동일 기능 플러그인 감지
+
+# ============================================================================
+# skills.sh 통합
+# ============================================================================
+skills_sh:
+  enabled: true
+  api_base: "https://skills.sh/api"
+  auto_install_official: true   # topSource: anthropics/* 자동 설치
+  cache_ttl: 3600               # 1시간 캐시
+  max_recommendations: 5
+  # 시너지 추천
+  combo_suggestions: true       # 플러그인 기반 보완 스킬 추천

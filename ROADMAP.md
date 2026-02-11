@@ -1,6 +1,6 @@
 # Plugin Scout 로드맵
 
-## 현재 버전: v2.5.0
+## 현재 버전: v4.1.0
 
 ---
 
@@ -11,6 +11,8 @@ Discovery       ████████████████████ 100
 Recommendation  ████████████████████ 100%
 UX              ████████████████████ 100%
 Learning        ████████████████████ 100%
+Trusted Install ████████████████████ 100%
+Skill Scout     ████████████████████ 100%
 ```
 
 **총 완성도: 100%**
@@ -112,6 +114,34 @@ Learning        ████████████████████ 100
 
 ---
 
+## v4.1.0 - Trusted Auto-Install + Skill Scout (완료)
+
+### Trusted Auto-Install ✅
+- [x] `lib/trusted-installer.sh` — 공식 플러그인 자동 설치 엔진
+- [x] LSP 언어 필터링 (11개 언어 매핑)
+- [x] 동일 기능 플러그인 충돌 감지
+- [x] 신규 출시 감지 (이전 캐시 vs 현재 비교)
+- [x] 오프라인 캐시 폴백
+- [x] opt-in 이중 확인 (config.yaml + history.json)
+- [x] `/scout trusted-install [on|off|status|check|run]` 커맨드
+- [x] SessionStart 훅 백그라운드 실행
+
+### Trust Manager ✅
+- [x] `lib/trust-manager.sh` — 신뢰 작성자 CRUD
+- [x] 감사 로그 내보내기 (`/scout trust export`)
+- [x] `/scout trust [@author|remove|list|export]` 커맨드
+
+### Skill Scout (skills.sh) ✅
+- [x] `lib/skill-scout.sh` — skills.sh API 연동
+- [x] 페이지네이션 카탈로그 동기화 (500/page)
+- [x] Anthropic 공식 스킬 자동 설치 (`topSource: anthropics/skills`)
+- [x] 스코어링 추천 (인기도 50% + 프로젝트 매칭 30% + 신뢰도 20%)
+- [x] 시너지 콤보 추천 (설치된 플러그인 기반)
+- [x] `/scout skills [search|recommend|install|list|combos]` 커맨드
+- [x] SessionStart 훅 백그라운드 자동 설치
+
+---
+
 ## Phase 6~7: 확장 (장기)
 
 ### 6.1 성능
@@ -145,8 +175,9 @@ Learning        ████████████████████ 100
 | v2.2 | 사용량 추적 | ✅ 완료 |
 | v2.3 | CLI 콘솔 | ✅ 완료 |
 | v2.5 | 웹 콘솔 & 학습 시스템 | ✅ 완료 |
-| v3.0 | 엔터프라이즈 기능 | 예정 |
-| v4.0 | 확장 기능 | 장기 |
+| v4.1 | Trusted Auto-Install + Skill Scout | ✅ 완료 |
+| v4.2 | 팀 필수 플러그인 + 마이그레이션 | 예정 |
+| v5.0 | 엔터프라이즈 확장 | 장기 |
 
 ---
 

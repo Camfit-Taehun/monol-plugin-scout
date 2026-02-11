@@ -1,8 +1,48 @@
-# Plugin Scout v2.1
+# Plugin Scout v4.1
 
 Claude Code 플러그인 마켓플레이스 모니터링 및 추천 에이전트
 
-## v2.1 새 기능
+## v4.1 새 기능
+
+### 신뢰된 자동 설치 (`/scout trusted-install`)
+Anthropic 공식 플러그인을 세션 시작 시 자동 설치합니다 (opt-in).
+```bash
+/scout trusted-install on      # 자동 설치 활성화 (사용자 확인 필요)
+/scout trusted-install off     # 비활성화
+/scout trusted-install status  # 현재 설정 + 마지막 결과
+/scout trusted-install check   # 미설치 공식 플러그인 목록 (dry-run)
+/scout trusted-install run     # 수동 즉시 실행
+```
+
+**안전 장치:**
+- opt-in 필수 (기본 비활성화)
+- LSP 플러그인은 프로젝트 언어 매칭 필요
+- 동일 기능 플러그인 충돌 감지
+- 신규 출시 감지 및 알림
+- 오프라인 시 캐시 폴백
+
+### 신뢰 작성자 관리 (`/scout trust`)
+자동 설치 대상 작성자를 관리합니다.
+```bash
+/scout trust @vercel           # 신뢰 작성자 추가
+/scout trust remove @vercel    # 신뢰 작성자 제거
+/scout trust list              # 신뢰 목록 표시
+/scout trust export            # 감사 로그 JSON 내보내기
+```
+
+### skills.sh 스킬 스카우트 (`/scout skills`)
+skills.sh에서 스킬을 탐색하고 추천합니다.
+```bash
+/scout skills search <query>   # 키워드 검색
+/scout skills recommend        # 프로젝트 맞춤 추천
+/scout skills install <id>     # 스킬 설치
+/scout skills list             # 설치된 스킬 목록
+/scout skills combos           # 플러그인 기반 시너지 추천
+```
+
+**Anthropic 공식 스킬**: `topSource: "anthropics/skills"`인 스킬은 자동 설치 (동의 불필요).
+
+## 이전 버전 기능
 
 ### 무음 모드 (`/scout quiet`)
 추천 알림을 완전히 비활성화합니다.
@@ -62,16 +102,19 @@ git clone https://github.com/your/monol-plugin-scout.git ~/monol-plugin-scout
 | 커맨드 | 한글 키워드 | 설명 |
 |--------|-------------|------|
 | `/scout` | 스카우트, 플러그인추천 | 플러그인 추천 |
-| `/scout quiet` | 무음, 조용히 | 무음 모드 설정 (v2.1) |
-| `/scout frequency` | 빈도, 횟수 | 추천 빈도 설정 (v2.1) |
-| `/scout timing` | 타이밍, 추천시점 | 스마트 타이밍 (v2.1) |
+| `/scout trusted-install` | 자동설치, 신뢰설치 | 신뢰된 자동 설치 (v4.1) |
+| `/scout trust` | 신뢰, 트러스트 | 신뢰 작성자 관리 (v4.1) |
+| `/scout skills` | 스킬, 스킬찾기 | skills.sh 스킬 탐색 (v4.1) |
+| `/scout quiet` | 무음, 조용히 | 무음 모드 설정 |
+| `/scout frequency` | 빈도, 횟수 | 추천 빈도 설정 |
+| `/scout timing` | 타이밍, 추천시점 | 스마트 타이밍 |
 | `/compare` | 비교, 플러그인비교 | 플러그인 비교 |
 | `/cleanup` | 정리, 플러그인정리 | 미사용 정리 |
 | `/explore` | 탐색, 마켓플레이스 | 카테고리 탐색 |
 | `/audit` | 점검, 보안점검 | 보안/업데이트 점검 |
 | `/fork` | 포크, 복사 | 플러그인 포크 |
 
-**한글 자연어 입력 지원**: "플러그인 추천해줘", "보안 점검해줘" 등으로 말하면 해당 커맨드가 실행됩니다.
+**한글 자연어 입력 지원**: "플러그인 추천해줘", "보안 점검해줘", "자동설치 켜줘", "스킬 찾아줘" 등으로 말하면 해당 커맨드가 실행됩니다.
 
 ### 상세 옵션
 
@@ -88,7 +131,7 @@ git clone https://github.com/your/monol-plugin-scout.git ~/monol-plugin-scout
 
 ## 점수 계산
 
-**종합 점수 = (프로젝트 매칭 × 40%) + (인기도 × 30%) + (보안 × 30%)**
+**종합 점수 = (프로젝트 매칭 x 40%) + (인기도 x 30%) + (보안 x 30%)**
 
 | 점수 | 등급 | 권장 |
 |------|------|------|
@@ -128,6 +171,25 @@ auto_recommend:
 cleanup:
   unused_days: 30
   low_usage_count: 3
+
+# 신뢰된 자동 설치 (v4.1)
+auto_install:
+  enabled: false               # /scout trusted-install on 으로 opt-in
+  trusted_authors: ["Anthropic"]
+  marketplace: "claude-plugins-official"
+  lsp_language_filter: true
+  check_conflicts: true
+  detect_new_releases: true
+  cache_catalog: true
+  cache_ttl: 86400
+
+# skills.sh 통합 (v4.1)
+skills_sh:
+  enabled: true
+  auto_install_official: true  # Anthropic 스킬 자동 설치
+  cache_ttl: 3600
+  max_recommendations: 5
+  combo_suggestions: true
 ```
 
 ## 파일 구조
@@ -141,30 +203,51 @@ cleanup:
     ├── CLAUDE.md                 # 이 파일
     ├── commands/
     │   ├── scout.md              # /scout 메인 커맨드
-    │   ├── quiet.md              # /scout quiet (v2.1)
-    │   ├── frequency.md          # /scout frequency (v2.1)
-    │   ├── timing.md             # /scout timing (v2.1)
+    │   ├── trusted-install.md    # /scout trusted-install (v4.1)
+    │   ├── trust.md              # /scout trust (v4.1)
+    │   ├── skills.md             # /scout skills (v4.1)
+    │   ├── quiet.md              # /scout quiet
+    │   ├── frequency.md          # /scout frequency
+    │   ├── timing.md             # /scout timing
     │   ├── compare.md            # /scout compare
     │   ├── cleanup.md            # /scout cleanup
     │   ├── explore.md            # /scout explore
     │   ├── audit.md              # /scout audit
     │   └── fork.md               # /scout fork
     ├── skills/
-    │   └── plugin-evaluation.md  # 평가 방법론
+    │   ├── plugin-evaluation.md  # 평가 방법론
+    │   ├── trusted-install.md    # 자동 설치 스킬 (v4.1)
+    │   ├── trust.md              # 신뢰 관리 스킬 (v4.1)
+    │   └── skills.md             # 스킬 스카우트 스킬 (v4.1)
     ├── lib/
-    │   └── recommendation-controller.sh  # 추천 제어 (v2.1)
+    │   ├── trusted-installer.sh  # 자동 설치 엔진 (v4.1)
+    │   ├── trust-manager.sh      # 신뢰 작성자 관리 (v4.1)
+    │   ├── skill-scout.sh        # skills.sh 연동 (v4.1)
+    │   ├── recommendation-controller.sh
+    │   ├── plugin-manager.sh
+    │   ├── project-analyzer.sh
+    │   ├── cache.sh
+    │   ├── logger.sh
+    │   ├── sync.sh
+    │   └── ...
     ├── combos/                   # 워크플로우 조합
     ├── overrides/                # 플러그인 오버라이드
     └── data/
-        ├── history.json          # 거절/설치 이력
+        ├── history.json          # 거절/설치 이력 + 신뢰/스킬 (v4.1)
         └── usage.json            # 사용량 추적
 ```
 
 ## 안전 규칙
 
-1. **자동 설치 금지** - 항상 사용자 동의 필요
-2. **보안 경고 표시** - 위험한 플러그인에 경고
-3. **설치 전 확인** - 명령어 확인 후 승인
+1. **기본 자동 설치 금지** - 항상 사용자 동의 필요
+2. **신뢰된 자동 설치** - opt-in 후 Anthropic 공식 플러그인만 (v4.1)
+3. **Anthropic 스킬 자동 설치** - skills.sh의 공식 스킬은 기본 ON (v4.1)
+4. **보안 경고 표시** - 위험한 플러그인에 경고
+5. **설치 전 확인** - 명령어 확인 후 승인
+6. **LSP 언어 필터** - 프로젝트와 무관한 LSP는 자동 설치 제외 (v4.1)
+7. **충돌 감지** - 동일 기능 플러그인 중복 설치 방지 (v4.1)
+8. **오프라인 대응** - 네트워크 실패 시 캐시 폴백 (v4.1)
+9. **감사 로그** - `/scout trust export`로 전체 이력 내보내기 (v4.1)
 
 ## Override vs Fork
 
